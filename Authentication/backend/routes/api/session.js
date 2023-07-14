@@ -25,8 +25,18 @@ router.post("/", async (req, res, next) => {
     user,
   });
 });
+// Restore session user
+router.get("/", restoreUser, (req, res) => {
+  const { user } = req;
+  if (user) {
+    return res.json({
+      user: user.toSafeObject(),
+    });
+  } else return res.json({});
+});
 router.delete("/", (_req, res) => {
   res.clearCookie("token");
   return res.json({ message: "success" });
 });
+
 module.exports = router;
